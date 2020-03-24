@@ -1,5 +1,8 @@
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Crayon.Tests")]
 
+using System;
+using System.Drawing;
+
 namespace Crayon
 {
     public static class Output
@@ -57,5 +60,8 @@ namespace Crayon
         public static IOutput Reversed() => new OutputChain(Decorations.Reversed);
 
         public static IOutput FromRgb(byte r, byte g, byte b) => new OutputChain($"\u001b[38;2;{r};{g};{b}m");
+        public static IOutput FromColor(Color col) => FromRgb(col.R, col.G, col.B);
+        public static IOutput FromRgb(byte r, byte g, byte b, byte rbg, byte gbg, byte bbg) => _chainFormat($"\u001b[38;2;{r};{g};{b};48;2;{rbg};{gbg};{bbg}m");
+        public static IOutput FromColor(Color col, Color bgCol) => FromRgb(col.R, col.G, col.B, bgCol.R, bgCol.G, bgCol.B);        
     }
 }
